@@ -1,0 +1,53 @@
+{
+ "updated": "2026-11-18",
+ "apps": [
+  {
+   "id": "paku",
+   "name": "PaKu",
+   "path": "/PaKu/",
+   "cache": "drip-reader-pwa-",
+   "storage": null,
+   "desc": {
+    "en": "Read e-books one chapter at a time.",
+    "pl": "Czytaj e-booki rozdział po rozdziale.",
+    "de": "Lies E-Books Kapitel für Kapitel.",
+    "es": "Lee libros electrónicos capítulo a capítulo.",
+    "fr": "Lis des livres numériques chapitre par chapitre.",
+    "zh": "一章一章地读电子书。",
+    "uk": "Читай електронні книжки розділ за розділом."
+   }
+  },
+  {
+   "id": "grounding",
+   "name": "PaKuGrounding",
+   "path": "/PaKuGrounding/",
+   "cache": "pakugrounding-",
+   "storage": "pakugrounding.v1",
+   "desc": {
+    "en": "Grounding and calm for hard moments.",
+    "pl": "Uziemienie i spokój w trudnych chwilach.",
+    "de": "Erdung und Ruhe für schwere Momente.",
+    "es": "Anclaje y calma para los momentos difíciles.",
+    "fr": "Ancrage et apaisement dans les moments difficiles.",
+    "zh": "在艰难时刻帮助你着陆、平静下来。",
+    "uk": "Заземлення й спокій у важкі хвилини."
+   }
+  },
+  {
+   "id": "steps",
+   "name": "PaKuSteps",
+   "path": "/PaKuSteps/",
+   "cache": "pakusteps-",
+   "storage": "pakusteps.v1",
+   "desc": {
+    "en": "Tasks broken into small steps, one at a time.",
+    "pl": "Zadania podzielone na małe kroki, jeden naraz.",
+    "de": "Aufgaben in kleinen Schritten, einer nach dem anderen.",
+    "es": "Tareas en pasos pequeños, uno cada vez.",
+    "fr": "Des tâches en petites étapes, une à la fois.",
+    "zh": "把任务拆成小步骤，一次一步。",
+    "uk": "Завдання, поділені на маленькі кроки, по одному."
+   }
+  }
+ ]
+}

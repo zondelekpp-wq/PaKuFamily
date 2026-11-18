@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PaKu family</title>
+<meta name="description" content="Free offline apps for neurodivergent people – and for anyone who sometimes needs support. Each works on its own; together they form a set.">
+<meta name="theme-color" content="#f5f1fb">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#f5f1fb;--surface:#fff;--surface2:#ece5f7;--primary:#7a5ca8;--on-primary:#fff;--text:#2a2238;--muted:#675d78;--border:#e2d9f0;--radius:22px;font-size:17px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#14111b;--surface:#1f1a29;--surface2:#2a2337;--primary:#b49ae0;--on-primary:#17121f;--text:#ece6f5;--muted:#aaa1ba;--border:#352d44;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.5}
+.wrap{max-width:900px;margin:0 auto;padding:calc(1rem + env(safe-area-inset-top)) 1rem 3rem}
+header{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+header img{width:3rem;height:3rem;border-radius:14px}
+h1{margin:0;font-size:1.6rem;flex:1}
+.langs{display:flex;flex-wrap:wrap;gap:.35rem}
+.langs button{min-height:2.5rem;padding:.3rem .8rem;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font:inherit;font-size:.9rem}
+.langs button[aria-pressed="true"]{background:var(--primary);color:var(--on-primary);border-color:var(--primary);font-weight:700}
+.intro{font-size:1.1rem;margin:1rem 0 1.4rem;max-width:42rem}
+.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.app{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;display:flex;flex-direction:column;gap:.6rem}
+.app-head{display:flex;gap:.8rem;align-items:center}
+.app-head img{width:3.2rem;height:3.2rem;border-radius:14px;background:var(--surface2)}
+.app h2{margin:0;font-size:1.15rem}
+.app p{margin:0;color:var(--muted)}
+.qr{background:#fff;border-radius:14px;padding:.5rem;width:fit-content;margin:.2rem auto}
+.qr img{display:block;width:150px;height:150px}
+.small{font-size:.85rem;color:var(--muted);text-align:center;margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:3rem;padding:.6rem 1.2rem;border-radius:999px;border:1px solid var(--primary);background:var(--primary);color:var(--on-primary);font-weight:700;text-decoration:none;text-align:center}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--border)}
+.btn.coffee{background:#ffdd00;border-color:#ffdd00;color:#000}
+.box{margin-top:1.6rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap}
+.box .grow{flex:1;min-width:14rem}
+.box p{margin:.2rem 0 .8rem}
+a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="icon.svg" alt="">
+    <h1 id="title">PaKu family</h1>
+    <div class="langs" id="langs"></div>
+  </header>
+  <p class="intro" id="intro"></p>
+  <div class="apps" id="apps"></div>
+  <div class="box">
+    <div class="qr"><img src="qr.svg" alt="QR" width="150" height="150"></div>
+    <div class="grow">
+      <strong id="share"></strong>
+      <p id="install"></p>
+      <p id="free"></p>
+      <a class="btn coffee" href="https://buymeacoffee.com/Hieronim" target="_blank" rel="noopener noreferrer" id="bmc"></a>
+    </div>
+  </div>
+</div>
+<script src="family.js"></script>
+<script>
+(() => {
+  const LANGS = [['en', 'English'], ['pl', 'Polski'], ['de', 'Deutsch'], ['es', 'Español'], ['fr', 'Français'], ['zh', '中文'], ['uk', 'Українська']];
+  const T = {
+    intro: { en: 'Free, offline apps for neurodivergent people – and for anyone who sometimes needs a bit of support. Each app works on its own; together they form a set. No accounts, no ads, everything stays on your device.', pl: 'Darmowe aplikacje offline dla osób neuroatypowych – i dla każdego, kto czasem potrzebuje odrobiny wsparcia. Każda działa samodzielnie, a razem tworzą zestaw. Bez kont i reklam, wszystko zostaje na twoim urządzeniu.', de: 'Kostenlose Offline-Apps für neurodivergente Menschen – und für alle, die manchmal etwas Unterstützung brauchen. Jede App funktioniert für sich, zusammen bilden sie ein Set. Keine Konten, keine Werbung, alles bleibt auf deinem Gerät.', es: 'Apps gratuitas y sin conexión para personas neurodivergentes, y para cualquiera que a veces necesite un poco de apoyo. Cada una funciona por sí sola; juntas forman un conjunto. Sin cuentas ni anuncios: todo se queda en tu dispositivo.', fr: "Des apps gratuites et hors ligne pour les personnes neuroatypiques – et pour toute personne qui a parfois besoin d'un peu de soutien. Chacune fonctionne seule ; ensemble, elles se complètent. Pas de compte, pas de publicité, tout reste sur ton appareil.", zh: '为神经多样性人群打造的免费离线应用——也适合任何有时需要一点支持的人。每个应用都能单独使用，放在一起就是一整套。无需账号，没有广告，所有内容都保存在你的设备上。', uk: 'Безкоштовні офлайн-застосунки для нейровідмінних людей — і для кожного, кому часом потрібна трохи підтримки. Кожен працює окремо, а разом вони утворюють набір. Без акаунтів і реклами, усе залишається на твоєму пристрої.' },
+    scan: { en: 'Scan with your phone camera', pl: 'Zeskanuj aparatem telefonu', de: 'Mit der Handykamera scannen', es: 'Escanea con la cámara del móvil', fr: "Scanne avec l'appareil photo du téléphone", zh: '用手机相机扫描', uk: 'Відскануй камерою телефона' },
+    install: { en: 'Open an app on your phone and add it to your home screen – it will then work offline.', pl: 'Otwórz aplikację na telefonie i dodaj ją do ekranu głównego – wtedy będzie działać offline.', de: 'Öffne eine App auf dem Handy und füge sie zum Startbildschirm hinzu – dann funktioniert sie offline.', es: 'Abre una app en el móvil y añádela a la pantalla de inicio: así funcionará sin conexión.', fr: "Ouvre une app sur ton téléphone et ajoute-la à l'écran d'accueil – elle fonctionnera alors hors ligne.", zh: '在手机上打开应用并添加到主屏幕——之后就能离线使用。', uk: 'Відкрий застосунок на телефоні й додай його на головний екран — тоді він працюватиме офлайн.' },
+    share: { en: 'Share this page', pl: 'Udostępnij tę stronę', de: 'Diese Seite teilen', es: 'Compartir esta página', fr: 'Partager cette page', zh: '分享此页面', uk: 'Поділитися цією сторінкою' },
+    free: { en: 'All apps are free and will stay free.', pl: 'Wszystkie aplikacje są i zawsze będą darmowe.', de: 'Alle Apps sind kostenlos und bleiben es auch.', es: 'Todas las apps son gratuitas y lo seguirán siendo.', fr: 'Toutes les apps sont gratuites et le resteront.', zh: '所有应用现在免费，以后也会一直免费。', uk: 'Усі застосунки безкоштовні й такими залишаться.' },
+    bmc: { en: 'Buy me a coffee', pl: 'Postaw mi kawę', de: 'Spendier mir einen Kaffee', es: 'Invítame a un café', fr: 'Offre-moi un café', zh: '请我喝杯咖啡', uk: 'Пригости мене кавою' }
+  };
+  const F = window.PaKuFamily;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  let lang = 'en';
+  try { const s = localStorage.getItem('paku.hub.lang'); if (s && LANGS.some(l => l[0] === s)) lang = s; } catch (e) { }
+  let apps = F.all();
+  const qrFor = a => (['paku', 'grounding', 'steps'].includes(a.id) ? `qr-${a.id}.svg` : F.url(a) + 'qr.svg');
+  function render() {
+    const tt = k => T[k][lang] || T[k].en;
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+    document.title = F.t('fam_title', lang);
+    document.getElementById('title').textContent = F.t('fam_title', lang);
+    document.getElementById('intro').textContent = tt('intro');
+    document.getElementById('share').textContent = tt('share');
+    document.getElementById('install').textContent = tt('install');
+    document.getElementById('free').textContent = tt('free');
+    document.getElementById('bmc').textContent = '☕ ' + tt('bmc');
+    document.getElementById('langs').innerHTML = LANGS.map(([c, n]) => `<button data-l="${c}" lang="${c === 'zh' ? 'zh-CN' : c}" aria-pressed="${c === lang}">${esc(n)}</button>`).join('');
+    document.getElementById('apps').innerHTML = apps.map(a => `
+      <article class="app">
+        <div class="app-head"><img src="${esc(F.icon(a))}" alt="" width="52" height="52" onerror="this.style.visibility='hidden'"><div><h2>${esc(a.name)}</h2><p>${esc(F.desc(a, lang))}</p></div></div>
+        <div class="qr"><img src="${esc(qrFor(a))}" alt="QR: ${esc(F.url(a))}" width="150" height="150" loading="lazy"></div>
+        <p class="small">${esc(tt('scan'))}</p>
+        <a class="btn" href="${esc(F.url(a))}">${esc(F.t('fam_open', lang))}</a>
+      </article>`).join('');
+  }
+  document.getElementById('langs').addEventListener('click', e => {
+    const b = e.target.closest('[data-l]'); if (!b) return;
+    lang = b.dataset.l; try { localStorage.setItem('paku.hub.lang', lang); } catch (err) { } render();
+  });
+  render();
+  // the hub's own family.json may list apps newer than this page's family.js
+  fetch('family.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(d => {
+    if (!d || !Array.isArray(d.apps)) return;
+    for (const a of d.apps) if (a && a.id && a.path && !apps.some(x => x.id === a.id)) apps.push(a);
+    render();
+  }).catch(() => { });
+})();
+</script>
+</body>
+</html>
