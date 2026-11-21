@@ -1,9 +1,9 @@
 {
- "updated": "2026-11-18",
+ "updated": "2026-11-21",
  "apps": [
   {
    "id": "paku",
-   "name": "PaKu",
+   "name": "PaKuReading",
    "path": "/PaKu/",
    "cache": "drip-reader-pwa-",
    "storage": null,
@@ -14,7 +14,8 @@
     "es": "Lee libros electrónicos capítulo a capítulo.",
     "fr": "Lis des livres numériques chapitre par chapitre.",
     "zh": "一章一章地读电子书。",
-    "uk": "Читай електронні книжки розділ за розділом."
+    "uk": "Читай електронні книжки розділ за розділом.",
+    "lv": "Lasi e-grāmatas pa vienai nodaļai."
    }
   },
   {
@@ -30,7 +31,8 @@
     "es": "Anclaje y calma para los momentos difíciles.",
     "fr": "Ancrage et apaisement dans les moments difficiles.",
     "zh": "在艰难时刻帮助你着陆、平静下来。",
-    "uk": "Заземлення й спокій у важкі хвилини."
+    "uk": "Заземлення й спокій у важкі хвилини.",
+    "lv": "Iezemēšanās un miers grūtos brīžos."
    }
   },
   {
@@ -46,7 +48,25 @@
     "es": "Tareas en pasos pequeños, uno cada vez.",
     "fr": "Des tâches en petites étapes, une à la fois.",
     "zh": "把任务拆成小步骤，一次一步。",
-    "uk": "Завдання, поділені на маленькі кроки, по одному."
+    "uk": "Завдання, поділені на маленькі кроки, по одному.",
+    "lv": "Uzdevumi, sadalīti mazos soļos, pa vienam."
+   }
+  },
+  {
+   "id": "honicorn",
+   "name": "Honicorn",
+   "path": "/Honicorn/",
+   "cache": "honicorn-",
+   "storage": "honicorn",
+   "desc": {
+    "en": "Blow off steam. Safely. Ridiculously.",
+    "pl": "Spuść parę. Bezpiecznie. Absurdalnie.",
+    "de": "Dampf ablassen. Sicher. Absurd.",
+    "es": "Suelta vapor. Seguro. Absurdo.",
+    "fr": "Lâche la vapeur. Sans danger. Sans logique.",
+    "zh": "释放怒气。安全，又荒唐。",
+    "uk": "Випусти пару. Безпечно. Абсурдно.",
+    "lv": "Nolaid tvaiku. Droši. Absurdi."
    }
   }
  ]

@@ -1,6 +1,6 @@
 # PaKuFamily
 
-Strona główna rodziny PaKu: wszystkie aplikacje w jednym miejscu, z opisami, kodami QR i linkami (7 języków).
+Strona główna rodziny PaKu: wszystkie aplikacje w jednym miejscu, z opisami, kodami QR i linkami (8 języków).
 
 - `index.html` – strona
 - `family.js` – wspólna lista aplikacji (ten sam plik jest w każdej aplikacji PaKu)
