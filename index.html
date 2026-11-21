@@ -8,7 +8,12 @@
 <meta name="theme-color" content="#f5f1fb">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PaKu">
+<script src="install.js" defer></script>
 <style>
 :root{--bg:#f5f1fb;--surface:#fff;--surface2:#ece5f7;--primary:#7a5ca8;--on-primary:#fff;--text:#2a2238;--muted:#675d78;--border:#e2d9f0;--radius:22px;font-size:17px;color-scheme:light}
 @media (prefers-color-scheme:dark){:root{--bg:#14111b;--surface:#1f1a29;--surface2:#2a2337;--primary:#b49ae0;--on-primary:#17121f;--text:#ece6f5;--muted:#aaa1ba;--border:#352d44;color-scheme:dark}}
@@ -37,6 +42,23 @@ h1{margin:0;font-size:1.6rem;flex:1}
 .box{margin-top:1.6rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap}
 .box .grow{flex:1;min-width:14rem}
 .box p{margin:.2rem 0 .8rem}
+.mine{margin:1.1rem 0 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem 1.2rem}
+.mine-head{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.8rem}
+.mine-head h2{margin:0;font-size:1.25rem;flex:1}
+.hint{margin:0 0 .9rem;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.8rem}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;min-height:9rem;padding:.9rem .5rem;border-radius:20px;background:var(--surface2);border:1px solid var(--border);color:var(--text);text-decoration:none;font-weight:700;text-align:center;word-break:break-word}
+.tile img{width:4rem;height:4rem;border-radius:16px}
+.tile:active{transform:scale(.97)}
+.picker{display:flex;flex-direction:column;gap:.5rem}
+.pick{display:flex;align-items:center;gap:.8rem;min-height:3.4rem;padding:.5rem .8rem;border-radius:16px;background:var(--surface2);border:1px solid var(--border);cursor:pointer}
+.pick img{width:2.4rem;height:2.4rem;border-radius:10px}
+.pick span{flex:1;font-weight:600}
+.pick input,.auto input{width:1.5rem;height:1.5rem;accent-color:var(--primary);flex:none}
+.auto{display:flex;align-items:center;gap:.7rem;margin-top:.4rem;padding:.6rem .2rem;cursor:pointer}
+.empty{color:var(--muted);margin:.3rem 0}
+details.cat>summary{cursor:pointer;font-weight:700;font-size:1.1rem;min-height:3rem;display:flex;align-items:center;list-style-position:inside}
+[hidden]{display:none!important}
 a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
 </style>
 </head>
@@ -47,8 +69,17 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-of
     <h1 id="title">PaKu family</h1>
     <div class="langs" id="langs"></div>
   </header>
+  <section class="mine" aria-labelledby="myH">
+    <div class="mine-head"><h2 id="myH"></h2><button class="btn ghost" type="button" id="chooseBtn" aria-expanded="false"></button></div>
+    <p class="hint" id="hint"></p>
+    <div class="tiles" id="tiles"></div>
+    <div class="picker" id="picker" hidden></div>
+  </section>
+  <details class="cat" id="cat">
+  <summary id="catS"></summary>
   <p class="intro" id="intro"></p>
   <div class="apps" id="apps"></div>
+  <p class="small" id="single" style="text-align:left;margin-top:1rem"></p>
   <div class="box">
     <div class="qr"><img src="qr.svg" alt="QR" width="150" height="150"></div>
     <div class="grow">
@@ -58,12 +89,22 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-of
       <a class="btn coffee" href="https://buymeacoffee.com/Hieronim" target="_blank" rel="noopener noreferrer" id="bmc"></a>
     </div>
   </div>
+  </details>
 </div>
 <script src="family.js"></script>
 <script>
 (() => {
   const LANGS = [['en', 'English'], ['pl', 'Polski'], ['de', 'Deutsch'], ['es', 'Español'], ['fr', 'Français'], ['zh', '中文'], ['uk', 'Українська'], ['lv', 'Latviešu']];
   const T = {
+    my: { en: 'My apps', pl: 'Moje aplikacje', de: 'Meine Apps', es: 'Mis apps', fr: 'Mes apps', zh: '我的应用', uk: 'Мої застосунки', lv: 'Manas lietotnes' },
+    choose: { en: 'Choose apps', pl: 'Wybierz aplikacje', de: 'Apps auswählen', es: 'Elegir apps', fr: 'Choisir les apps', zh: '选择应用', uk: 'Вибрати застосунки', lv: 'Izvēlēties lietotnes' },
+    done: { en: 'Done', pl: 'Gotowe', de: 'Fertig', es: 'Listo', fr: 'Terminé', zh: '完成', uk: 'Готово', lv: 'Gatavs' },
+    hint: { en: 'Install just this one “PaKu” icon – all apps are inside as tiles. Show only the ones you use: one, three or all of them.', pl: 'Zainstaluj tylko tę jedną ikonę „PaKu” – w środku masz wszystkie aplikacje jako kafelki. Pokaż tylko te, których używasz: jedną, trzy albo wszystkie.', de: 'Installiere nur dieses eine „PaKu“-Symbol – darin findest du alle Apps als Kacheln. Zeig nur die, die du nutzt: eine, drei oder alle.', es: 'Instala solo este icono «PaKu»: dentro tienes todas las apps en mosaicos. Muestra solo las que usas: una, tres o todas.', fr: 'Installe seulement cette icône « PaKu » – toutes les apps sont dedans, sous forme de tuiles. N’affiche que celles que tu utilises : une, trois ou toutes.', zh: '只需安装这一个“PaKu”图标——所有应用都以磁贴形式放在里面。只显示你用的：一个、三个或全部。', uk: 'Встанови лише одну іконку «PaKu» — усередині всі застосунки у вигляді плиток. Показуй тільки ті, якими користуєшся: один, три або всі.', lv: 'Instalē tikai šo vienu “PaKu” ikonu – iekšā ir visas lietotnes kā flīzes. Rādi tikai tās, ko izmanto: vienu, trīs vai visas.' },
+    pickHint: { en: 'Tick the apps you want to see as tiles.', pl: 'Zaznacz aplikacje, które chcesz widzieć jako kafelki.', de: 'Hake die Apps an, die du als Kacheln sehen willst.', es: 'Marca las apps que quieres ver como mosaicos.', fr: 'Coche les apps que tu veux voir en tuiles.', zh: '勾选你想显示为磁贴的应用。', uk: 'Познач застосунки, які хочеш бачити як плитки.', lv: 'Atzīmē lietotnes, ko vēlies redzēt kā flīzes.' },
+    auto: { en: 'Open this app right away when I tap the PaKu icon', pl: 'Otwieraj od razu tę aplikację po stuknięciu ikony PaKu', de: 'Diese App sofort öffnen, wenn ich auf das PaKu-Symbol tippe', es: 'Abrir esta app directamente al tocar el icono PaKu', fr: 'Ouvrir directement cette app quand je touche l’icône PaKu', zh: '点击 PaKu 图标时直接打开此应用', uk: 'Одразу відкривати цей застосунок, коли торкаюся іконки PaKu', lv: 'Uzreiz atvērt šo lietotni, kad pieskaros PaKu ikonai' },
+    none: { en: 'No apps chosen yet – tap “Choose apps”.', pl: 'Nie wybrano jeszcze żadnej aplikacji – stuknij „Wybierz aplikacje”.', de: 'Noch keine App ausgewählt – tippe auf „Apps auswählen“.', es: 'Aún no has elegido ninguna app: toca «Elegir apps».', fr: 'Aucune app choisie – touche « Choisir les apps ».', zh: '还没有选择应用——请点击“选择应用”。', uk: 'Ще не вибрано жодного застосунку — торкнися «Вибрати застосунки».', lv: 'Vēl nav izvēlēta neviena lietotne – pieskaries “Izvēlēties lietotnes”.' },
+    cat: { en: 'All apps, QR codes and sharing', pl: 'Wszystkie aplikacje, kody QR i udostępnianie', de: 'Alle Apps, QR-Codes und Teilen', es: 'Todas las apps, códigos QR y compartir', fr: 'Toutes les apps, codes QR et partage', zh: '所有应用、二维码和分享', uk: 'Усі застосунки, QR-коди й поширення', lv: 'Visas lietotnes, QR kodi un kopīgošana' },
+    single: { en: 'Prefer a separate icon for one app? Open that app and install it on its own – both ways work.', pl: 'Wolisz osobną ikonę dla jednej aplikacji? Otwórz ją i zainstaluj osobno – oba sposoby działają.', de: 'Lieber ein eigenes Symbol für eine App? Öffne sie und installiere sie einzeln – beides funktioniert.', es: '¿Prefieres un icono aparte para una app? Ábrela e instálala por separado: las dos formas funcionan.', fr: 'Tu préfères une icône séparée pour une app ? Ouvre-la et installe-la à part – les deux fonctionnent.', zh: '想给某个应用单独一个图标？打开它并单独安装——两种方式都可以。', uk: 'Хочеш окрему іконку для одного застосунку? Відкрий його й установи окремо — обидва способи працюють.', lv: 'Gribi atsevišķu ikonu vienai lietotnei? Atver to un instalē atsevišķi – darbojas abi veidi.' },
     intro: { en: 'Free, offline apps for neurodivergent people – and for anyone who sometimes needs a bit of support. Each app works on its own; together they form a set. No accounts, no ads, everything stays on your device.', pl: 'Darmowe aplikacje offline dla osób neuroatypowych – i dla każdego, kto czasem potrzebuje odrobiny wsparcia. Każda działa samodzielnie, a razem tworzą zestaw. Bez kont i reklam, wszystko zostaje na twoim urządzeniu.', de: 'Kostenlose Offline-Apps für neurodivergente Menschen – und für alle, die manchmal etwas Unterstützung brauchen. Jede App funktioniert für sich, zusammen bilden sie ein Set. Keine Konten, keine Werbung, alles bleibt auf deinem Gerät.', es: 'Apps gratuitas y sin conexión para personas neurodivergentes, y para cualquiera que a veces necesite un poco de apoyo. Cada una funciona por sí sola; juntas forman un conjunto. Sin cuentas ni anuncios: todo se queda en tu dispositivo.', fr: "Des apps gratuites et hors ligne pour les personnes neuroatypiques – et pour toute personne qui a parfois besoin d'un peu de soutien. Chacune fonctionne seule ; ensemble, elles se complètent. Pas de compte, pas de publicité, tout reste sur ton appareil.", zh: '为神经多样性人群打造的免费离线应用——也适合任何有时需要一点支持的人。每个应用都能单独使用，放在一起就是一整套。无需账号，没有广告，所有内容都保存在你的设备上。', uk: 'Безкоштовні офлайн-застосунки для нейровідмінних людей — і для кожного, кому часом потрібна трохи підтримки. Кожен працює окремо, а разом вони утворюють набір. Без акаунтів і реклами, усе залишається на твоєму пристрої.', lv: 'Bezmaksas bezsaistes lietotnes neirodiverģentiem cilvēkiem – un ikvienam, kam dažreiz vajag mazliet atbalsta. Katra darbojas patstāvīgi, kopā tās veido komplektu. Bez kontiem un reklāmām, viss paliek tavā ierīcē.' },
     scan: { en: 'Scan with your phone camera', pl: 'Zeskanuj aparatem telefonu', de: 'Mit der Handykamera scannen', es: 'Escanea con la cámara del móvil', fr: "Scanne avec l'appareil photo du téléphone", zh: '用手机相机扫描', uk: 'Відскануй камерою телефона', lv: 'Skenē ar tālruņa kameru' },
     install: { en: 'Open an app on your phone and add it to your home screen – it will then work offline.', pl: 'Otwórz aplikację na telefonie i dodaj ją do ekranu głównego – wtedy będzie działać offline.', de: 'Öffne eine App auf dem Handy und füge sie zum Startbildschirm hinzu – dann funktioniert sie offline.', es: 'Abre una app en el móvil y añádela a la pantalla de inicio: así funcionará sin conexión.', fr: "Ouvre une app sur ton téléphone et ajoute-la à l'écran d'accueil – elle fonctionnera alors hors ligne.", zh: '在手机上打开应用并添加到主屏幕——之后就能离线使用。', uk: 'Відкрий застосунок на телефоні й додай його на головний екран — тоді він працюватиме офлайн.', lv: 'Atver lietotni tālrunī un pievieno to sākuma ekrānam – tad tā darbosies bezsaistē.' },
@@ -76,6 +117,20 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-of
   let lang = 'en';
   try { const s = localStorage.getItem('paku.hub.lang'); if (s && LANGS.some(l => l[0] === s)) lang = s; } catch (e) { }
   let apps = F.all();
+  const qs = location.search;
+  const SA = (() => { try { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch (e) { return false; } })() || /[?&]launcher=1/.test(qs);
+  const get = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } };
+  const put = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } };
+  let sel = get('paku.hub.sel', null);              // null = all apps
+  let auto = get('paku.hub.auto', false) === true;
+  let editing = false;
+  const chosen = () => apps.filter(a => sel === null || sel.includes(a.id));
+  const go = a => { try { sessionStorage.setItem('paku.launcher', '1'); } catch (e) { } };
+  /* one app chosen + "open right away": the PaKu icon goes straight into it */
+  if (SA && auto && sel && sel.length === 1 && !/[?&]home=1/.test(qs)) {
+    const a = apps.find(x => x.id === sel[0]);
+    if (a) { go(a); location.replace(a.path); }
+  }
   const qrFor = a => (['paku', 'grounding', 'steps', 'honicorn', 'word'].includes(a.id) ? `qr-${a.id}.svg` : F.url(a) + 'qr.svg');
   function render() {
     const tt = k => T[k][lang] || T[k].en;
@@ -88,6 +143,18 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-of
     document.getElementById('free').textContent = tt('free');
     document.getElementById('bmc').textContent = '☕ ' + tt('bmc');
     document.getElementById('langs').innerHTML = LANGS.map(([c, n]) => `<button data-l="${c}" lang="${c === 'zh' ? 'zh-CN' : c}" aria-pressed="${c === lang}">${esc(n)}</button>`).join('');
+    document.getElementById('myH').textContent = tt('my');
+    document.getElementById('hint').textContent = editing ? tt('pickHint') : tt('hint');
+    const cb = document.getElementById('chooseBtn');
+    cb.textContent = editing ? '✓ ' + tt('done') : '⚙️ ' + tt('choose'); cb.setAttribute('aria-expanded', String(editing));
+    document.getElementById('catS').textContent = tt('cat');
+    document.getElementById('single').textContent = tt('single');
+    const tiles = document.getElementById('tiles'), picker = document.getElementById('picker');
+    tiles.hidden = editing; picker.hidden = !editing;
+    const ch = chosen();
+    tiles.innerHTML = ch.length ? ch.map(a => `<a class="tile" href="${esc(a.path)}" data-id="${esc(a.id)}"><img src="${esc(F.icon(a))}" alt="" width="64" height="64" onerror="this.style.visibility='hidden'"><span>${esc(a.name)}</span></a>`).join('') : `<p class="empty">${esc(tt('none'))}</p>`;
+    picker.innerHTML = apps.map(a => `<label class="pick"><img src="${esc(F.icon(a))}" alt="" width="38" height="38" onerror="this.style.visibility='hidden'"><span>${esc(a.name)}</span><input type="checkbox" data-pick="${esc(a.id)}" ${ch.includes(a) ? 'checked' : ''}></label>`).join('') +
+      (ch.length === 1 ? `<label class="auto"><input type="checkbox" id="autoBox" ${auto ? 'checked' : ''}><span>${esc(tt('auto'))}</span></label>` : '');
     document.getElementById('apps').innerHTML = apps.map(a => `
       <article class="app">
         <div class="app-head"><img src="${esc(F.icon(a))}" alt="" width="52" height="52" onerror="this.style.visibility='hidden'"><div><h2>${esc(a.name)}</h2><p>${esc(F.desc(a, lang))}</p></div></div>
@@ -96,11 +163,38 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-of
         <a class="btn" href="${esc(F.url(a))}">${esc(F.t('fam_open', lang))}</a>
       </article>`).join('');
   }
+  document.getElementById('tiles').addEventListener('click', e => { const t = e.target.closest('[data-id]'); if (t) go(); });
+  document.getElementById('chooseBtn').addEventListener('click', () => { editing = !editing; render(); });
+  document.getElementById('picker').addEventListener('change', e => {
+    if (e.target.id === 'autoBox') { auto = e.target.checked; put('paku.hub.auto', auto); return; }
+    const id = e.target.dataset.pick; if (!id) return;
+    const cur = chosen().map(a => a.id).filter(x => x !== id);
+    if (e.target.checked) cur.push(id);
+    sel = apps.map(a => a.id).filter(x => cur.includes(x));
+    put('paku.hub.sel', sel);
+    if (sel.length !== 1 && auto) { auto = false; put('paku.hub.auto', false); }
+    render();
+    const again = document.querySelector(`[data-pick="${CSS.escape(id)}"]`); if (again) again.focus();
+  });
+  if (!SA) document.getElementById('cat').open = true;   // in a browser: show the full catalogue
   document.getElementById('langs').addEventListener('click', e => {
     const b = e.target.closest('[data-l]'); if (!b) return;
     lang = b.dataset.l; try { localStorage.setItem('paku.hub.lang', lang); } catch (err) { } render();
   });
   render();
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => { });
+    /* installed launcher: get the chosen apps ready for offline use too */
+    if (SA) setTimeout(() => {
+      if (!navigator.onLine) return;
+      const known = F.all().map(a => a.id);
+      for (const a of chosen()) if (known.includes(a.id) && a.path !== F.hub) {
+        navigator.serviceWorker.getRegistration(a.path).then(r => {
+          if (!r || r.scope !== location.origin + a.path) return navigator.serviceWorker.register(a.path + 'sw.js', { scope: a.path });
+        }).catch(() => { });
+      }
+    }, 2500);
+  }
   // the hub's own family.json may list apps newer than this page's family.js
   fetch('family.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(d => {
     if (!d || !Array.isArray(d.apps)) return;
