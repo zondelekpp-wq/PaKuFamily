@@ -76,7 +76,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-of
   let lang = 'en';
   try { const s = localStorage.getItem('paku.hub.lang'); if (s && LANGS.some(l => l[0] === s)) lang = s; } catch (e) { }
   let apps = F.all();
-  const qrFor = a => (['paku', 'grounding', 'steps', 'honicorn'].includes(a.id) ? `qr-${a.id}.svg` : F.url(a) + 'qr.svg');
+  const qrFor = a => (['paku', 'grounding', 'steps', 'honicorn', 'word'].includes(a.id) ? `qr-${a.id}.svg` : F.url(a) + 'qr.svg');
   function render() {
     const tt = k => T[k][lang] || T[k].en;
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;

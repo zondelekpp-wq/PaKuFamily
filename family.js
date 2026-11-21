@@ -14,7 +14,9 @@ window.PaKuFamily = (() => {
     { id: 'steps', name: 'PaKuSteps', path: '/PaKuSteps/', cache: 'pakusteps-', storage: 'pakusteps.v1',
       desc: { en: 'Tasks broken into small steps, one at a time.', pl: 'Zadania podzielone na małe kroki, jeden naraz.', de: 'Aufgaben in kleinen Schritten, einer nach dem anderen.', es: 'Tareas en pasos pequeños, uno cada vez.', fr: 'Des tâches en petites étapes, une à la fois.', zh: '把任务拆成小步骤，一次一步。', uk: 'Завдання, поділені на маленькі кроки, по одному.', lv: 'Uzdevumi, sadalīti mazos soļos, pa vienam.' } },
     { id: 'honicorn', name: 'Honicorn', path: '/Honicorn/', cache: 'honicorn-', storage: 'honicorn',
-      desc: { en: 'Blow off steam. Safely. Ridiculously.', pl: 'Spuść parę. Bezpiecznie. Absurdalnie.', de: 'Dampf ablassen. Sicher. Absurd.', es: 'Suelta vapor. Seguro. Absurdo.', fr: 'Lâche la vapeur. Sans danger. Sans logique.', zh: '释放怒气。安全，又荒唐。', uk: 'Випусти пару. Безпечно. Абсурдно.', lv: 'Nolaid tvaiku. Droši. Absurdi.' } }
+      desc: { en: 'Blow off steam. Safely. Ridiculously.', pl: 'Spuść parę. Bezpiecznie. Absurdalnie.', de: 'Dampf ablassen. Sicher. Absurd.', es: 'Suelta vapor. Seguro. Absurdo.', fr: 'Lâche la vapeur. Sans danger. Sans logique.', zh: '释放怒气。安全，又荒唐。', uk: 'Випусти пару. Безпечно. Абсурдно.', lv: 'Nolaid tvaiku. Droši. Absurdi.' } },
+    { id: 'word', name: 'PaKuWord', path: '/PaKuWord/', cache: 'pakuword-', storage: 'pakuword.state.v1',
+      desc: {en: "One word a day, explained properly – also read aloud.", pl: "Jedno słowo dziennie, porządnie wytłumaczone – także na głos.", de: "Ein Wort am Tag, richtig erklärt – auch zum Anhören.", es: "Una palabra al día, bien explicada, también en voz alta.", fr: "Un mot par jour, bien expliqué – aussi à écouter.", zh: "每天一个词，讲得明明白白——还能听。", uk: "Одне слово на день, пояснене як слід – ще й уголос.", lv: "Viens vārds dienā, kārtīgi izskaidrots – arī balsī."} }
   ];
 
   const T = {

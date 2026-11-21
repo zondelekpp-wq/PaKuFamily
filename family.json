@@ -68,6 +68,23 @@
     "uk": "Випусти пару. Безпечно. Абсурдно.",
     "lv": "Nolaid tvaiku. Droši. Absurdi."
    }
+  },
+  {
+   "id": "word",
+   "name": "PaKuWord",
+   "path": "/PaKuWord/",
+   "cache": "pakuword-",
+   "storage": "pakuword.state.v1",
+   "desc": {
+    "en": "One word a day, explained properly – also read aloud.",
+    "pl": "Jedno słowo dziennie, porządnie wytłumaczone – także na głos.",
+    "de": "Ein Wort am Tag, richtig erklärt – auch zum Anhören.",
+    "es": "Una palabra al día, bien explicada, también en voz alta.",
+    "fr": "Un mot par jour, bien expliqué – aussi à écouter.",
+    "zh": "每天一个词，讲得明明白白——还能听。",
+    "uk": "Одне слово на день, пояснене як слід – ще й уголос.",
+    "lv": "Viens vārds dienā, kārtīgi izskaidrots – arī balsī."
+   }
   }
  ]
 }
