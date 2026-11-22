@@ -131,7 +131,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-of
     const a = apps.find(x => x.id === sel[0]);
     if (a) { go(a); location.replace(a.path); }
   }
-  const qrFor = a => (['paku', 'grounding', 'steps', 'honicorn', 'word'].includes(a.id) ? `qr-${a.id}.svg` : F.url(a) + 'qr.svg');
+  const qrFor = a => (['paku', 'grounding', 'steps', 'honicorn', 'word', 'buddy'].includes(a.id) ? `qr-${a.id}.svg` : F.url(a) + 'qr.svg');
   function render() {
     const tt = k => T[k][lang] || T[k].en;
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;

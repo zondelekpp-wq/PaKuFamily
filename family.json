@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21",
+ "updated": "2026-11-22",
  "apps": [
   {
    "id": "paku",
@@ -84,6 +84,23 @@
     "zh": "每天一个词，讲得明明白白——还能听。",
     "uk": "Одне слово на день, пояснене як слід – ще й уголос.",
     "lv": "Viens vārds dienā, kārtīgi izskaidrots – arī balsī."
+   }
+  },
+  {
+   "id": "buddy",
+   "name": "PaKuBuddy",
+   "path": "/PaKuBuddy/",
+   "cache": "pakubuddy-",
+   "storage": "buddyBuilder",
+   "desc": {
+    "en": "Build a buddy from the inside out – body, jobs, history and care, read aloud.",
+    "pl": "Zbuduj kumpla od środka – ciało, zawody, historia i opieka, wszystko czytane na głos.",
+    "de": "Bau dir einen Freund von innen nach außen – Körper, Berufe, Geschichte und Pflege, alles vorgelesen.",
+    "es": "Construye un amigo desde dentro: cuerpo, oficios, historia y cuidados, todo leído en voz alta.",
+    "fr": "Construis un copain de l’intérieur – corps, métiers, histoire et soins, tout lu à voix haute.",
+    "zh": "从里到外搭建一个小伙伴——身体、职业、历史和照顾，全部朗读出来。",
+    "uk": "Збудуй друга зсередини – тіло, професії, історія й догляд, усе вголос.",
+    "lv": "Uzbūvē draugu no iekšpuses – ķermenis, profesijas, vēsture un rūpes, viss nolasīts balsī."
    }
   }
  ]
