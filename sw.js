@@ -1,5 +1,5 @@
 /* PaKu launcher (PaKu family hub) – offline cache. Touches only its own cache and its own folder. */
-const VERSION = 'pakufamily-v2';
+const VERSION = 'pakufamily-v3';
 const FILES = ['./', './index.html', './family.js', './family.json', './install.js', './manifest.webmanifest',
   './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './qr.svg',
   './qr-paku.svg', './qr-grounding.svg', './qr-steps.svg', './qr-honicorn.svg', './qr-word.svg', './qr-buddy.svg'];

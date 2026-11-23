@@ -57,7 +57,16 @@ h1{margin:0;font-size:1.6rem;flex:1}
 .pick input,.auto input{width:1.5rem;height:1.5rem;accent-color:var(--primary);flex:none}
 .auto{display:flex;align-items:center;gap:.7rem;margin-top:.4rem;padding:.6rem .2rem;cursor:pointer}
 .empty{color:var(--muted);margin:.3rem 0}
-details.cat>summary{cursor:pointer;font-weight:700;font-size:1.1rem;min-height:3rem;display:flex;align-items:center;list-style-position:inside}
+details.cat>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.9rem;min-height:4.6rem;padding:.9rem 1.1rem;border-radius:var(--radius);background:linear-gradient(135deg,#9b7fd0,#7a5ca8);color:#fff;font-weight:700;font-size:1.12rem;line-height:1.3;box-shadow:0 6px 18px rgba(122,92,168,.28);-webkit-tap-highlight-color:transparent;user-select:none}
+details.cat>summary::-webkit-details-marker{display:none}
+details.cat>summary:active{transform:scale(.985)}
+details.cat>summary:focus-visible{outline:3px solid var(--text);outline-offset:3px}
+.cat-ic{flex:none;display:grid;place-items:center;width:2.9rem;height:2.9rem;border-radius:14px;background:rgba(255,255,255,.22);font-size:1.5rem}
+.cat-tx{flex:1;min-width:0}
+.cat-ch{flex:none;font-size:1.4rem;transition:transform .2s}
+details.cat[open]>summary{margin-bottom:1rem}
+details.cat[open] .cat-ch{transform:rotate(180deg)}
+@media (prefers-reduced-motion:reduce){.cat-ch{transition:none}}
 [hidden]{display:none!important}
 a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
 </style>
@@ -76,7 +85,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--primary);outline-of
     <div class="picker" id="picker" hidden></div>
   </section>
   <details class="cat" id="cat">
-  <summary id="catS"></summary>
+  <summary><span class="cat-ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3M21 14v.01M14 21h.01M17.5 21H21v-3.5"/></svg></span><span class="cat-tx" id="catS"></span><span class="cat-ch" aria-hidden="true">⌄</span></summary>
   <p class="intro" id="intro"></p>
   <div class="apps" id="apps"></div>
   <p class="small" id="single" style="text-align:left;margin-top:1rem"></p>
